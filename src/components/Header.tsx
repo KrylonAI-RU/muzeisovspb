@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Coins, Menu, X } from 'lucide-react';
+import { SovietStarIcon } from './SovietStarIcon';
 
 interface HeaderProps {
   coins: number;
@@ -19,12 +20,8 @@ export const Header: React.FC<HeaderProps> = ({ coins, onOpenMatchbox }) => {
           className="flex items-center gap-2 xs:gap-2.5 group mr-2 shrink min-w-0"
         >
           {/* Authentic Ruby Kremlin Star emblem */}
-          <div className="w-8 h-8 rounded-lg bg-stone-900/90 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-md group-hover:border-amber-400/60 transition-colors p-0.5">
-            <img 
-              src="/soviet-star.svg" 
-              alt="Красная рубиновая звезда" 
-              className="w-full h-full object-contain filter drop-shadow group-hover:scale-105 transition-transform" 
-            />
+          <div className="w-8 h-8 rounded-lg bg-stone-900/90 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-md group-hover:border-amber-400/60 transition-colors p-1">
+            <SovietStarIcon className="w-full h-full filter drop-shadow group-hover:scale-105 transition-transform" />
           </div>
           <div className="flex flex-col min-w-0">
             <span className="text-[11px] xs:text-xs sm:text-sm font-bold tracking-wider text-white group-hover:text-amber-400 transition-colors uppercase font-display leading-tight truncate">

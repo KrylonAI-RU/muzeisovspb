@@ -204,37 +204,15 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
     return () => clearInterval(timer);
   }, [isPlaying]);
 
-  // Keyboard controls: Arrows / WASD
-  useEffect(() => {
-    if (!isPlaying) return;
+  const applyGas = (pressed: boolean) => {
+    isGasPressedRef.current = pressed;
+    setIsGasPressed(pressed);
+  };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-        steerLeft();
-      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-        steerRight();
-      } else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
-        setIsGasPressed(true);
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
-        setIsBrakePressed(true);
-      }
-    };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
-        setIsGasPressed(false);
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
-        setIsBrakePressed(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, [isPlaying]);
+  const applyBrake = (pressed: boolean) => {
+    isBrakePressedRef.current = pressed;
+    setIsBrakePressed(pressed);
+  };
 
   const steerLeft = () => {
     if (!isPlaying) return;
@@ -245,6 +223,68 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
     if (!isPlaying) return;
     setPlayerLane((l) => Math.min(2, l + 1));
   };
+
+  // Keyboard controls: WSAD (Layout independent via e.code + Russian layout support) & Arrow keys
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is focused inside an input or textarea
+      const target = e.target as HTMLElement | null;
+      if (target && ['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+
+      const code = e.code;
+      const key = e.key ? e.key.toLowerCase() : '';
+
+      // Support QWERTY WSAD, Russian ЙЦУКЕН (Ц/Ф/Ы/В), and Arrow keys
+      const isLeft = code === 'KeyA' || code === 'ArrowLeft' || key === 'a' || key === 'ф' || key === 'arrowleft';
+      const isRight = code === 'KeyD' || code === 'ArrowRight' || key === 'd' || key === 'в' || key === 'arrowright';
+      const isGas = code === 'KeyW' || code === 'ArrowUp' || key === 'w' || key === 'ц' || key === 'arrowup';
+      const isBrake = code === 'KeyS' || code === 'ArrowDown' || key === 's' || key === 'ы' || key === 'arrowdown';
+
+      if (isLeft) {
+        e.preventDefault();
+        steerLeft();
+      } else if (isRight) {
+        e.preventDefault();
+        steerRight();
+      } else if (isGas) {
+        e.preventDefault();
+        applyGas(true);
+      } else if (isBrake) {
+        e.preventDefault();
+        applyBrake(true);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      const code = e.code;
+      const key = e.key ? e.key.toLowerCase() : '';
+
+      const isGas = code === 'KeyW' || code === 'ArrowUp' || key === 'w' || key === 'ц' || key === 'arrowup';
+      const isBrake = code === 'KeyS' || code === 'ArrowDown' || key === 's' || key === 'ы' || key === 'arrowdown';
+
+      if (isGas) {
+        applyGas(false);
+      } else if (isBrake) {
+        applyBrake(false);
+      }
+    };
+
+    const handleBlur = () => {
+      applyGas(false);
+      applyBrake(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleBlur);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, [isPlaying]);
 
   const startGame = () => {
     if (coins <= 0) {
@@ -648,6 +688,16 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
                 else if (relX > 0.65) setPlayerLane(2);
                 else setPlayerLane(1);
               }}
+              onTouchMove={(e) => {
+                if (!isPlaying) return;
+                const rect = e.currentTarget.getBoundingClientRect();
+                const touch = e.touches[0];
+                if (!touch) return;
+                const relX = (touch.clientX - rect.left) / rect.width;
+                if (relX < 0.35) setPlayerLane(0);
+                else if (relX > 0.65) setPlayerLane(2);
+                else setPlayerLane(1);
+              }}
               className="relative flex-1 h-full bg-[#11161d] overflow-hidden cursor-pointer touch-none"
             >
               {/* Asphalt Grain Texture */}
@@ -863,10 +913,10 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onMouseDown={() => setIsBrakePressed(true)}
-                onMouseUp={() => setIsBrakePressed(false)}
-                onTouchStart={() => setIsBrakePressed(true)}
-                onTouchEnd={() => setIsBrakePressed(false)}
+                onMouseDown={() => applyBrake(true)}
+                onMouseUp={() => applyBrake(false)}
+                onTouchStart={() => applyBrake(true)}
+                onTouchEnd={() => applyBrake(false)}
                 className={`py-2.5 rounded-xl font-display text-xs uppercase tracking-wider transition-all border cursor-pointer touch-manipulation flex items-center justify-center gap-1 select-none ${
                   isBrakePressed
                     ? 'bg-amber-700 text-white border-amber-500 scale-98 shadow-inner'
@@ -879,10 +929,10 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
 
               <button
                 type="button"
-                onMouseDown={() => setIsGasPressed(true)}
-                onMouseUp={() => setIsGasPressed(false)}
-                onTouchStart={() => setIsGasPressed(true)}
-                onTouchEnd={() => setIsGasPressed(false)}
+                onMouseDown={() => applyGas(true)}
+                onMouseUp={() => applyGas(false)}
+                onTouchStart={() => applyGas(true)}
+                onTouchEnd={() => applyGas(false)}
                 className={`py-2.5 rounded-xl font-display text-xs uppercase tracking-wider transition-all border cursor-pointer touch-manipulation flex items-center justify-center gap-1 select-none ${
                   isGasPressed
                     ? 'bg-amber-700 text-white border-amber-500 scale-98 shadow-inner'
