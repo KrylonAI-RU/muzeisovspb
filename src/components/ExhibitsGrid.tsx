@@ -14,11 +14,11 @@ export const ExhibitsGrid: React.FC<ExhibitsGridProps> = ({
   const [filter, setFilter] = useState<string>('all');
 
   const categories = [
-    { id: 'all', label: 'Все экспонаты' },
+    { id: 'all', label: 'Все аппараты' },
     { id: 'морские', label: 'Морские' },
-    { id: 'гонки', label: 'Гонки' },
+    { id: 'гонки', label: 'Авторалли' },
     { id: 'стрелковые', label: 'Стрелковые' },
-    { id: 'ловкость', label: 'Ловкость' },
+    { id: 'ловкость', label: 'Спортивные' },
     { id: 'быт', label: 'Автоматы газводы' },
   ];
 
@@ -27,32 +27,34 @@ export const ExhibitsGrid: React.FC<ExhibitsGridProps> = ({
     : EXHIBITS_DATA.filter((e) => e.category === filter);
 
   return (
-    <section id="exhibits" className="py-16 bg-[#121418] border-t border-stone-800 text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="exhibits" className="py-14 sm:py-16 bg-[#121418] border-t border-stone-800 text-stone-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="text-xs font-soviet-mono text-amber-400 uppercase tracking-widest">
-              Постоянная музейная экспозиция
+            <div className="text-xs font-soviet-mono text-amber-400 uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-600"></span>
+              <span>РЕЕСТР ЭКСПОНАТОВ МУЗЕЯ</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase">
+            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase tracking-tight">
               Каталог советских автоматов
             </h2>
-            <p className="text-sm text-stone-400 mt-2 max-w-2xl">
-              Свыше 50 подлинных аппаратов, бережно восстановленных инженерами музея. 
-              Нажмите на любой аппарат, чтобы изучить его технический паспорт, военный завод и правила игры.
+            <p className="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
+              Более 50 подлинных аппаратов 1970–1990 годов. Выберите аппарат, чтобы открыть заводской техпаспорт, 
+              историю оборонного завода и правила игры.
             </p>
           </div>
 
-          {/* Filter buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-stone-900 border border-stone-800">
+          {/* Filter buttons - Horizontally scrollable on mobile without wrapping into multiple rows */}
+          <div className="flex overflow-x-auto sm:flex-wrap items-center gap-1.5 p-1 rounded-xl bg-stone-900 border border-stone-800 w-full md:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat.id}
+                type="button"
                 onClick={() => setFilter(cat.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium font-soviet-mono uppercase transition-colors cursor-pointer shrink-0 touch-manipulation ${
                   filter === cat.id
-                    ? 'bg-amber-600 text-stone-950 font-semibold'
+                    ? 'bg-amber-600 text-stone-950 font-bold shadow-sm'
                     : 'text-stone-400 hover:text-white'
                 }`}
               >
@@ -62,29 +64,27 @@ export const ExhibitsGrid: React.FC<ExhibitsGridProps> = ({
           </div>
         </div>
 
-        {/* Grid Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Grid Cards - Authentic Soviet Metal Plate styling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {filteredExhibits.map((exhibit) => (
             <div
               key={exhibit.id}
-              className="group rounded-xl bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors shadow-lg overflow-hidden flex flex-col justify-between"
+              className="group rounded-xl bg-stone-900/90 border border-stone-800 hover:border-stone-700 transition-all shadow-md overflow-hidden flex flex-col justify-between"
             >
               <div>
+                {/* Thin industrial top color stripe */}
                 <div
                   style={{ backgroundColor: exhibit.accentColor }}
-                  className="h-1 w-full"
+                  className="h-1 w-full opacity-80"
                 ></div>
 
-                <div className="p-5 space-y-3">
-                  <div className="flex items-center gap-2 text-xs text-stone-400 font-soviet-mono">
-                    <span className="text-amber-400 font-bold">{exhibit.year} год</span>
-                    <span aria-hidden="true">·</span>
-                    <span>{exhibit.city}</span>
-                    <span aria-hidden="true">·</span>
-                    <span className="text-stone-300">{exhibit.price}</span>
+                <div className="p-4 sm:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between text-xs text-stone-400 font-soviet-mono gap-2">
+                    <span className="text-amber-400 font-bold whitespace-nowrap shrink-0">{exhibit.year}&nbsp;год</span>
+                    <span className="truncate text-stone-300 text-right">{exhibit.city}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold font-display uppercase tracking-wide text-white group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold font-display uppercase tracking-wide text-white group-hover:text-amber-400 transition-colors">
                     {exhibit.name}
                   </h3>
 
@@ -93,28 +93,30 @@ export const ExhibitsGrid: React.FC<ExhibitsGridProps> = ({
                     <span className="truncate">{exhibit.factory}</span>
                   </div>
 
-                  <p className="text-xs text-stone-400 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-stone-400 leading-relaxed line-clamp-3 pt-1">
                     {exhibit.shortDesc}
                   </p>
                 </div>
               </div>
 
-              <div className="px-5 pb-5 pt-3 border-t border-stone-800/80 flex items-center justify-between gap-3">
+              <div className="px-4 sm:px-5 pb-3.5 sm:pb-4 pt-3 border-t border-stone-800/80 flex items-center justify-between gap-3">
                 <button
+                  type="button"
                   onClick={() => onSelectExhibit(exhibit)}
-                  className="text-xs font-semibold text-stone-300 hover:text-amber-400 transition-colors flex items-center gap-1 py-1"
+                  className="text-xs font-semibold text-stone-300 hover:text-amber-400 transition-colors flex items-center gap-1.5 py-1.5 cursor-pointer font-soviet-mono touch-manipulation"
                 >
                   <Info className="w-3.5 h-3.5 text-amber-400" />
-                  Паспорт автомата
+                  <span>ТЕХПАСПОРТ</span>
                 </button>
 
                 {exhibit.hasSimulator && (
                   <button
+                    type="button"
                     onClick={() => onPlaySimulator(exhibit.hasSimulator!)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-700 hover:bg-red-600 text-white text-xs font-semibold uppercase tracking-wider transition-colors"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-red-700 hover:bg-red-600 text-white text-xs font-semibold font-display uppercase tracking-wider transition-colors cursor-pointer shadow-sm active:scale-95 touch-manipulation"
                   >
                     <Play className="w-3 h-3" />
-                    Запустить
+                    <span>Играть</span>
                   </button>
                 )}
               </div>

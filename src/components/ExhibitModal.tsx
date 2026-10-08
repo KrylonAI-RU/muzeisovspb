@@ -16,29 +16,29 @@ export const ExhibitModal: React.FC<ExhibitModalProps> = ({
   if (!exhibit) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-stone-900 border border-stone-700 rounded-xl shadow-2xl overflow-hidden text-stone-200 my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-xs overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-stone-900 border border-stone-700 rounded-xl shadow-2xl overflow-hidden text-stone-200 my-auto sm:my-8">
         {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-stone-850 border-b border-stone-800">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 bg-stone-850 border-b border-stone-800">
+          <div className="flex items-center gap-2 min-w-0">
             <span
               style={{ backgroundColor: exhibit.accentColor }}
-              className="w-2.5 h-2.5 rounded-full"
+              className="w-2.5 h-2.5 rounded-full shrink-0"
             ></span>
-            <span className="text-xs font-soviet-mono uppercase tracking-widest text-stone-400">
+            <span className="text-[11px] sm:text-xs font-soviet-mono uppercase tracking-widest text-stone-400 truncate">
               Экспонат музея · Инв. № {exhibit.year}-{exhibit.id.slice(0, 3).toUpperCase()}
             </span>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
+            className="p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition-colors touch-manipulation shrink-0 ml-2"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[82vh] overflow-y-auto">
           {/* Main Title */}
           <div>
             <div className="flex items-center gap-2 text-xs font-soviet-mono text-amber-400">
@@ -46,7 +46,7 @@ export const ExhibitModal: React.FC<ExhibitModalProps> = ({
               <span>·</span>
               <span>{exhibit.price}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-white mt-1 uppercase">
+            <h2 className="text-xl sm:text-3xl font-bold font-display text-white mt-1 uppercase">
               {exhibit.name}
             </h2>
             <p className="text-xs sm:text-sm text-stone-300 mt-2 italic border-l-2 border-amber-500/60 pl-3 py-0.5">
@@ -55,7 +55,7 @@ export const ExhibitModal: React.FC<ExhibitModalProps> = ({
           </div>
 
           {/* Technical Passport */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-lg bg-stone-950 border border-stone-800 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 p-3 sm:p-4 rounded-lg bg-stone-950 border border-stone-800 text-xs">
             <div>
               <div className="text-[10px] uppercase tracking-wider text-stone-500 flex items-center gap-1">
                 <Factory className="w-3 h-3" /> Завод
@@ -110,24 +110,26 @@ export const ExhibitModal: React.FC<ExhibitModalProps> = ({
           {/* Action buttons */}
           <div className="flex items-center justify-between gap-3 pt-3 border-t border-stone-800">
             <button
+              type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium transition-colors"
+              className="px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium transition-colors cursor-pointer touch-manipulation"
             >
               Закрыть
             </button>
 
             {exhibit.hasSimulator && (
               <button
+                type="button"
                 onClick={() => {
                   onClose();
                   if (onPlaySimulator && exhibit.hasSimulator) {
                     onPlaySimulator(exhibit.hasSimulator);
                   }
                 }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-red-700 hover:bg-red-600 text-white font-display text-xs uppercase tracking-widest transition-colors font-semibold"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs uppercase tracking-widest transition-colors font-semibold cursor-pointer touch-manipulation shadow-md"
               >
                 <Play className="w-4 h-4" />
-                Запустить симулятор
+                <span>Запустить симулятор</span>
               </button>
             )}
           </div>

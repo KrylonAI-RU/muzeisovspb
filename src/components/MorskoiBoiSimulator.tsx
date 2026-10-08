@@ -476,12 +476,12 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-stone-800">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded bg-blue-950 border border-blue-700/80 text-blue-300 font-soviet-mono text-[11px] sm:text-xs tracking-wider flex items-center gap-1">
+            <span className="px-2.5 py-0.5 rounded bg-blue-950/80 border border-blue-700/80 text-blue-300 font-soviet-mono text-[11px] sm:text-xs tracking-wider flex items-center gap-1">
               <Anchor className="w-3 h-3 text-cyan-400" />
               СЕРПУХОВСКИЙ РТЗ · ГОСТ 23412-79
             </span>
-            <span className="text-[11px] sm:text-xs text-amber-400/90 font-soviet-mono flex items-center gap-1">
-              <span>🪙</span> СТОИМОСТЬ: 15 КОПЕЕК
+            <span className="text-[11px] sm:text-xs text-stone-400 font-soviet-mono">
+              Стоимость игры: 15 копеек
             </span>
             {isBonusGame && (
               <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500 text-amber-300 font-soviet-mono text-[11px] font-bold animate-pulse">
@@ -548,14 +548,14 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
         </div>
       </div>
 
-      {/* Main Periscope Viewport - Guaranteed height on mobile screens with authentic rubber bezel */}
+      {/* Main Periscope Viewport - Guaranteed height and responsive aspect on all devices */}
       <div
         ref={viewportRef}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerCancel}
-        className="relative my-4 sm:my-5 h-[340px] sm:h-[400px] md:h-[460px] w-full bg-[#070c14] rounded-2xl overflow-hidden border-2 sm:border-4 border-[#1c222c] shadow-[inset_0_0_60px_rgba(0,0,0,0.9)] flex items-center justify-center select-none cursor-crosshair touch-none"
+        className="relative my-3 sm:my-5 h-[360px] xs:h-[400px] sm:h-[440px] md:h-[480px] w-full bg-[#070c14] rounded-2xl overflow-hidden border-2 sm:border-4 border-[#1c222c] shadow-[inset_0_0_60px_rgba(0,0,0,0.9)] flex items-center justify-center select-none cursor-crosshair touch-none"
       >
         {/* Optical Rubber Eyepiece Hood & Periscope Vignetting */}
         <div className="absolute inset-0 pointer-events-none rounded-xl shadow-[inset_0_0_90px_rgba(0,0,0,0.98)] z-25 border-4 border-stone-900/60"></div>
@@ -694,80 +694,71 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
             </div>
           )}
 
-          {/* Idle Screen (The legendary Soviet pre-launch card that the user loved!) */}
+          {/* Idle Screen (Fully optimized for phones, tablets & desktop) */}
           {!isPlaying && !gameOver && (
-            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              {/* Iconic Circular Medal Badge */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-blue-950 border-2 border-cyan-500/80 flex items-center justify-center mb-2.5 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] shrink-0">
-                <Target className="w-7 h-7 sm:w-8 sm:h-8" />
-              </div>
-
-              {/* Title & Authentic Subtitle */}
-              <div className="space-y-1">
-                <div className="text-[10px] sm:text-xs font-soviet-mono text-cyan-400 uppercase tracking-widest">
-                  СЕРПУХОВСКИЙ РТЗ · ГОСТ 23412-79 · ЦНИИ «ВОЛНА»
-                </div>
-                <h4 className="font-display text-xl sm:text-3xl text-white uppercase tracking-wider font-bold">
-                  Оптический симулятор «Морской бой» (1973)
-                </h4>
-              </div>
-
-              <p className="text-xs sm:text-sm text-stone-300 max-w-lg mt-2 leading-relaxed">
-                Культовый советский торпедный симулятор. Взгляните в окуляр настоящего перископа, 
-                вычисляйте упреждение по быстроходным крейсерам, эсминцам и катерам. 
-                Прицел непрерывно и без задержек следует за курсором мыши или пальцем. 
-                Пуск торпеды производится кликом ЛКМ по экрану или боевой гашеткой на рукоятке.
-              </p>
-
-              {/* Tactical Briefing 4-card Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-lg my-3.5 text-[11px] font-soviet-mono text-stone-300 w-full">
-                <div className="p-2 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
-                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
-                    <Compass className="w-3.5 h-3.5 text-cyan-400" />
-                    ПЕРИСКОП ◄ ►
-                  </div>
-                  <div className="text-[9px] text-stone-400 mt-0.5">Курсор мыши / Палец / A-D</div>
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-lg w-full">
+                {/* Iconic Circular Medal Badge */}
+                <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 rounded-full bg-blue-950 border-2 border-cyan-500/80 flex items-center justify-center mb-1.5 sm:mb-2 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] shrink-0">
+                  <Target className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8" />
                 </div>
 
-                <div className="p-2 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
-                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
-                    <Flame className="w-3.5 h-3.5 text-red-500" />
-                    ЗАЛП (ЛКМ) 🚀
+                {/* Title & Authentic Subtitle */}
+                <div className="space-y-0.5 sm:space-y-1">
+                  <div className="text-[9px] xs:text-[10px] sm:text-xs font-soviet-mono text-cyan-400 uppercase tracking-widest">
+                    СЕРПУХОВСКИЙ РТЗ · ГОСТ 23412-79 · ЦНИИ «ВОЛНА»
                   </div>
-                  <div className="text-[9px] text-stone-400 mt-0.5">Клик ЛКМ / Красная гашетка</div>
+                  <h4 className="font-display text-lg xs:text-xl sm:text-3xl text-white uppercase tracking-wider font-bold leading-tight">
+                    Оптический симулятор «Морской бой» (1973)
+                  </h4>
                 </div>
 
-                <div className="p-2 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
-                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
-                    <Anchor className="w-3.5 h-3.5 text-amber-400" />
-                    10 ТОРПЕД
-                  </div>
-                  <div className="text-[9px] text-stone-400 mt-0.5">Световая шкала ламп</div>
-                </div>
+                <p className="text-[11px] xs:text-xs sm:text-sm text-stone-300 max-w-lg mt-1 sm:mt-2 leading-relaxed">
+                  Взгляните в окуляр настоящего перископа. Наведите прицел пальцем или мышью на силуэты кораблей и производите залпы ЛКМ или гашеткой!
+                </p>
 
-                <div className="p-2 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
-                  <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-                    ПРИЗОВАЯ ⭐
+                {/* Tactical Briefing 3-card Grid */}
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-3 max-w-lg my-2 sm:my-3.5 text-[10px] sm:text-[11px] font-soviet-mono text-stone-300 w-full">
+                  <div className="p-1.5 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
+                    <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
+                      <Compass className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                      <span className="text-[9px] sm:text-[11px]">ПЕРИСКОП</span>
+                    </div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Курсор / Палец</div>
                   </div>
-                  <div className="text-[9px] text-stone-400 mt-0.5">Бонус за 8+ попаданий</div>
+
+                  <div className="p-1.5 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
+                    <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
+                      <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-500 shrink-0" />
+                      <span className="text-[9px] sm:text-[11px]">ЗАЛП (ЛКМ)</span>
+                    </div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Клик / Гашетка</div>
+                  </div>
+
+                  <div className="p-1.5 sm:p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-center shadow">
+                    <div className="text-amber-400 font-bold flex items-center justify-center gap-1">
+                      <Anchor className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+                      <span className="text-[9px] sm:text-[11px]">10 ТОРПЕД</span>
+                    </div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Шкала ламп</div>
+                  </div>
                 </div>
               </div>
 
-              {/* Authentic Coin Slot & Big Glowing Soviet Arcade Start Button */}
-              <div className="flex flex-col items-center gap-2 mt-1 shrink-0">
+              {/* Authentic Coin Slot & Big Glowing Soviet Arcade Start Button (Always in view on mobile) */}
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2 mt-1 sm:mt-2 shrink-0 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     startGame();
                   }}
-                  className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-[0_0_25px_rgba(185,28,28,0.6)] border border-red-500/60 flex items-center gap-2.5"
+                  className="w-full sm:w-auto px-6 xs:px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-[0_0_25px_rgba(185,28,28,0.6)] border border-red-500/60 flex items-center justify-center gap-2 sm:gap-2.5"
                 >
                   <span className="text-base sm:text-lg">🪙</span>
                   <span>Опустить 15 коп. и начать атаку</span>
                 </button>
-                <div className="text-[10px] font-soviet-mono text-stone-400 flex items-center gap-1.5">
+                <div className="text-[9px] sm:text-[10px] font-soviet-mono text-stone-400 flex items-center gap-1.5">
                   <Radio className="w-3 h-3 text-cyan-400" />
                   <span>МОНЕТОПРИЁМНИК 15 КОП. · БЕЗ СДАЧИ</span>
                 </div>
@@ -777,32 +768,34 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
 
           {/* Game Over Screen */}
           {gameOver && (
-            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <Award className="w-12 h-12 text-amber-400 mb-2 shrink-0 animate-bounce" />
-              <h4 className="font-display text-2xl sm:text-3xl text-white uppercase font-bold">
-                Торпедная атака завершена!
-              </h4>
-              <p className="font-soviet-mono text-2xl text-amber-400 mt-1">
-                {score} очков · {hitsCount} из 10 попаданий
-              </p>
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-sm w-full">
+                <Award className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400 mb-1 sm:mb-2 shrink-0 animate-bounce" />
+                <h4 className="font-display text-xl sm:text-3xl text-white uppercase font-bold">
+                  Торпедная атака завершена!
+                </h4>
+                <p className="font-soviet-mono text-xl sm:text-2xl text-amber-400 mt-0.5 sm:mt-1">
+                  {score} очков · {hitsCount} из 10 попаданий
+                </p>
 
-              <div className="flex items-center gap-4 my-2.5 text-xs font-soviet-mono text-stone-300 bg-stone-900/90 px-5 py-2 rounded-xl border border-stone-800">
-                <div>Меткость: <span className="text-emerald-400 font-bold">{Math.round((hitsCount / 10) * 100)}%</span></div>
-                <div className="h-4 w-px bg-stone-700"></div>
-                <div>Звание: <span className="text-amber-400 font-bold">{hitsCount >= 8 ? 'Командир торпедной ПЛ' : hitsCount >= 5 ? 'Старшина 1 статьи' : 'Матрос-торпедист'}</span></div>
+                <div className="flex items-center gap-3 sm:gap-4 my-2 sm:my-2.5 text-xs font-soviet-mono text-stone-300 bg-stone-900/90 px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl border border-stone-800">
+                  <div>Меткость: <span className="text-emerald-400 font-bold">{Math.round((hitsCount / 10) * 100)}%</span></div>
+                  <div className="h-4 w-px bg-stone-700"></div>
+                  <div>Звание: <span className="text-amber-400 font-bold">{hitsCount >= 8 ? 'Командир ПЛ' : hitsCount >= 5 ? 'Старшина 1 ст.' : 'Матрос'}</span></div>
+                </div>
+
+                <p className="text-[11px] sm:text-xs text-stone-300 mt-1 max-w-sm leading-relaxed">
+                  {hitsCount >= 8
+                    ? 'Блестящая стрельба! Вы подтвердили квалификацию снайпера Краснознамённого флота!'
+                    : 'Все 10 торпед выпущены. Учитывайте скорость цели и берите упреждение в 1–2 корпуса!'}
+                </p>
               </div>
 
-              <p className="text-xs text-stone-300 mt-1 max-w-sm leading-relaxed">
-                {hitsCount >= 8
-                  ? 'Блестящая стрельба! Вы подтвердили квалификацию снайпера Краснознамённого флота!'
-                  : 'Все 10 торпед выпущены. Учитывайте скорость цели и берите упреждение в 1–2 корпуса!'}
-              </p>
-
-              <div className="flex flex-wrap items-center justify-center gap-3 mt-4 shrink-0">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-3 sm:mt-4 shrink-0 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={startGame}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation shadow-lg"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation shadow-lg"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>🪙 Повторить атаку (15 коп.)</span>
@@ -810,7 +803,7 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
                 <button
                   type="button"
                   onClick={stopGame}
-                  className="px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
+                  className="flex-1 sm:flex-initial px-4 sm:px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
                 >
                   Выйти в меню
                 </button>
@@ -821,12 +814,67 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
       </div>
 
       {/* Tactile Soviet Periscope Cockpit & Handle Steering Console */}
-      <div className="bg-stone-950 p-3.5 sm:p-5 rounded-2xl border border-stone-800/90 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
-          {/* Left Submarine Module: Bearing Rose Dial & Status Annunciators */}
-          <div className="md:col-span-4 flex items-center justify-around sm:justify-start gap-4 p-2.5 rounded-xl bg-stone-900/80 border border-stone-800">
+      <div className="bg-stone-950 p-3 sm:p-5 rounded-2xl border border-stone-800/90 shadow-2xl">
+        <div className="flex flex-col md:grid md:grid-cols-12 gap-3.5 items-center">
+          {/* Action Module on mobile placed FIRST so user immediately has buttons right under screen */}
+          <div className="order-1 md:order-3 md:col-span-4 w-full space-y-2">
+            {/* Steering Left / Right Buttons */}
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onTouchStart={() => { keysPressed.current.left = true; }}
+                onTouchEnd={() => { keysPressed.current.left = false; }}
+                onMouseDown={() => { keysPressed.current.left = true; }}
+                onMouseUp={() => { keysPressed.current.left = false; }}
+                onClick={() => setPeriscopeAngle((prev) => Math.max(10, prev - 3.5))}
+                className="py-3 sm:py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-100 font-display text-xs uppercase tracking-wider transition-all border border-stone-700 cursor-pointer touch-manipulation flex items-center justify-center gap-1.5 active:scale-95 shadow"
+              >
+                <ArrowLeft className="w-4 h-4 text-amber-400" />
+                <span>Влево (A)</span>
+              </button>
+
+              <button
+                type="button"
+                onTouchStart={() => { keysPressed.current.right = true; }}
+                onTouchEnd={() => { keysPressed.current.right = false; }}
+                onMouseDown={() => { keysPressed.current.right = true; }}
+                onMouseUp={() => { keysPressed.current.right = false; }}
+                onClick={() => setPeriscopeAngle((prev) => Math.min(90, prev + 3.5))}
+                className="py-3 sm:py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-100 font-display text-xs uppercase tracking-wider transition-all border border-stone-700 cursor-pointer touch-manipulation flex items-center justify-center gap-1.5 active:scale-95 shadow"
+              >
+                <span>Вправо (D)</span>
+                <ArrowRight className="w-4 h-4 text-amber-400" />
+              </button>
+            </div>
+
+            {/* Big Primary Red Launch Torpedo Button with Coin and Status */}
+            <button
+              type="button"
+              onClick={launchTorpedo}
+              disabled={!isPlaying || torpedo !== null || torpedoesLeft <= 0}
+              className={`w-full py-3 sm:py-3.5 rounded-xl font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation flex items-center justify-center gap-2 select-none shadow-xl ${
+                !isPlaying || torpedo !== null || torpedoesLeft <= 0
+                  ? 'bg-stone-900 text-stone-600 border border-stone-800 cursor-not-allowed'
+                  : 'bg-red-700 hover:bg-red-600 active:bg-red-800 text-white border border-red-500/60 active:scale-98 shadow-[0_0_15px_rgba(220,38,38,0.5)]'
+              }`}
+            >
+              <Flame className="w-4 h-4 text-yellow-300" />
+              <span>
+                {!isPlaying
+                  ? 'Вставьте 15 коп. для пуска'
+                  : torpedo !== null
+                  ? 'Торпеда в воде...'
+                  : torpedoesLeft <= 0
+                  ? 'Боекомплект израсходован'
+                  : 'Пуск торпеды (ЛКМ)'}
+              </span>
+            </button>
+          </div>
+
+          {/* Submarine Module: Bearing Rose Dial & Status Annunciators */}
+          <div className="order-2 md:order-1 md:col-span-4 w-full flex items-center justify-around sm:justify-start gap-4 p-2.5 rounded-xl bg-stone-900/80 border border-stone-800">
             {/* Compass Bearing Rose Dial */}
-            <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-stone-950 border-2 border-stone-700 flex flex-col items-center justify-center shadow-inner shrink-0">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-stone-950 border-2 border-stone-700 flex flex-col items-center justify-center shadow-inner shrink-0">
               {/* Rotating Compass card */}
               <div
                 style={{ transform: `rotate(${-bearingDegrees}deg)` }}
@@ -837,15 +885,15 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
                 <div className="absolute left-1 text-[7px] font-soviet-mono text-stone-400">З</div>
                 <div className="absolute right-1 text-[7px] font-soviet-mono text-stone-400">В</div>
               </div>
-              <div className="w-3 h-3 rounded-full bg-stone-300 border border-black z-10 shadow"></div>
-              <span className="font-soviet-mono text-xs font-bold text-cyan-400 mt-2 z-10">
+              <div className="w-2.5 h-2.5 rounded-full bg-stone-300 border border-black z-10 shadow"></div>
+              <span className="font-soviet-mono text-[11px] sm:text-xs font-bold text-cyan-400 mt-1 sm:mt-2 z-10">
                 {displayBearing < 100 ? `0${displayBearing}` : displayBearing}°
               </span>
               <span className="text-[7px] text-stone-500 font-soviet-mono uppercase">ПЕЛЕНГ</span>
             </div>
 
             {/* Torpedo Status Incandescent Annunciators */}
-            <div className="space-y-1.5 flex-1">
+            <div className="space-y-1 sm:space-y-1.5 flex-1">
               <div className="text-[9px] uppercase tracking-wider text-stone-400 font-soviet-mono flex items-center gap-1">
                 <Radio className="w-3 h-3 text-cyan-400" />
                 <span>ТАБЛО ТОРПЕДНОГО ЗАЛПА</span>
@@ -861,7 +909,7 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
                       : 'bg-red-950 text-red-400 border-red-600'
                   }`}
                 >
-                  {torpedo !== null ? '● ТОРПЕДА В ВОДЕ' : torpedoesLeft > 0 ? '✓ ГОТОВ К АТАКЕ' : '✕ БОЕКОМПЛЕКТ ПУСТ'}
+                  {torpedo !== null ? '● В ВОДЕ' : torpedoesLeft > 0 ? '✓ ГОТОВ К АТАКЕ' : '✕ ПУСТО'}
                 </div>
               </div>
 
@@ -875,9 +923,9 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
           </div>
 
           {/* Center Submarine Module: Interactive Dual-Grip Periscope Assembly */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center">
+          <div className="order-3 md:order-2 md:col-span-4 flex flex-col items-center justify-center">
             <div className="relative flex items-center justify-center">
-              {/* Outer periscope yoke (Pivots with periscope bearing in real-time!) */}
+              {/* Outer periscope yoke */}
               <div
                 style={{ transform: `rotate(${(periscopeAngle - 50) * 0.6}deg)` }}
                 className="w-28 h-20 sm:w-32 sm:h-22 rounded-2xl border-4 border-stone-800 bg-stone-900 shadow-2xl flex items-center justify-between px-2.5 transition-none will-change-transform select-none relative"
@@ -933,61 +981,6 @@ export const MorskoiBoiSimulator: React.FC<MorskoiBoiSimulatorProps> = ({
             <span className="text-[9px] font-soviet-mono text-stone-400 mt-1 uppercase tracking-wider">
               РУКОЯТКИ С БОЕВОЙ ГАШЕТКОЙ ПУСКА (ЛКМ)
             </span>
-          </div>
-
-          {/* Right Submarine Module: Tactile Steering & Primary Torpedo Launch Button */}
-          <div className="md:col-span-4 space-y-2">
-            {/* Steering Left / Right Buttons */}
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onTouchStart={() => { keysPressed.current.left = true; }}
-                onTouchEnd={() => { keysPressed.current.left = false; }}
-                onMouseDown={() => { keysPressed.current.left = true; }}
-                onMouseUp={() => { keysPressed.current.left = false; }}
-                onClick={() => setPeriscopeAngle((prev) => Math.max(10, prev - 3.5))}
-                className="py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-100 font-display text-xs uppercase tracking-wider transition-all border border-stone-700 cursor-pointer touch-manipulation flex items-center justify-center gap-1.5 active:scale-95 shadow"
-              >
-                <ArrowLeft className="w-4 h-4 text-amber-400" />
-                <span>Влево (A)</span>
-              </button>
-
-              <button
-                type="button"
-                onTouchStart={() => { keysPressed.current.right = true; }}
-                onTouchEnd={() => { keysPressed.current.right = false; }}
-                onMouseDown={() => { keysPressed.current.right = true; }}
-                onMouseUp={() => { keysPressed.current.right = false; }}
-                onClick={() => setPeriscopeAngle((prev) => Math.min(90, prev + 3.5))}
-                className="py-3 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-100 font-display text-xs uppercase tracking-wider transition-all border border-stone-700 cursor-pointer touch-manipulation flex items-center justify-center gap-1.5 active:scale-95 shadow"
-              >
-                <span>Вправо (D)</span>
-                <ArrowRight className="w-4 h-4 text-amber-400" />
-              </button>
-            </div>
-
-            {/* Big Primary Red Launch Torpedo Button with Coin and Status */}
-            <button
-              type="button"
-              onClick={launchTorpedo}
-              disabled={!isPlaying || torpedo !== null || torpedoesLeft <= 0}
-              className={`w-full py-3 sm:py-3.5 rounded-xl font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation flex items-center justify-center gap-2 select-none shadow-xl ${
-                !isPlaying || torpedo !== null || torpedoesLeft <= 0
-                  ? 'bg-stone-900 text-stone-600 border border-stone-800 cursor-not-allowed'
-                  : 'bg-red-700 hover:bg-red-600 active:bg-red-800 text-white border border-red-500/60 active:scale-98 shadow-[0_0_15px_rgba(220,38,38,0.5)]'
-              }`}
-            >
-              <Flame className="w-4 h-4 text-yellow-300" />
-              <span>
-                {!isPlaying
-                  ? 'Вставьте 15 коп. для пуска'
-                  : torpedo !== null
-                  ? 'Торпеда в воде...'
-                  : torpedoesLeft <= 0
-                  ? 'Боекомплект израсходован'
-                  : 'Пуск торпеды (ЛКМ)'}
-              </span>
-            </button>
           </div>
         </div>
       </div>

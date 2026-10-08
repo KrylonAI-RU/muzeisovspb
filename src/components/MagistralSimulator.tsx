@@ -589,7 +589,7 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
       <div className="relative my-4 sm:my-6 rounded-2xl p-2.5 sm:p-4 bg-[#090d12] border-4 border-[#1e2430] shadow-[inset_0_0_50px_rgba(0,0,0,0.9)]">
         {/* CRT Curved Screen with Phosphor Filter */}
         <div
-          className={`relative h-[380px] sm:h-[430px] md:h-[480px] w-full rounded-xl overflow-hidden border-2 border-stone-800 select-none flex items-center justify-center transition-all ${
+          className={`relative h-[360px] xs:h-[400px] sm:h-[440px] md:h-[480px] w-full rounded-xl overflow-hidden border-2 border-stone-800 select-none flex items-center justify-center transition-all ${
             screenTheme === 'emerald'
               ? 'bg-[#041209] [filter:hue-rotate(60deg)_saturate(200%)]'
               : screenTheme === 'night'
@@ -628,8 +628,28 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
               </div>
             </div>
 
-            {/* Central Highway Asphalt (3 lanes) */}
-            <div className="relative flex-1 h-full bg-[#11161d] overflow-hidden">
+            {/* Central Highway Asphalt (3 lanes) with direct touch/click lane steering */}
+            <div 
+              onClick={(e) => {
+                if (!isPlaying) return;
+                const rect = e.currentTarget.getBoundingClientRect();
+                const relX = (e.clientX - rect.left) / rect.width;
+                if (relX < 0.35) setPlayerLane(0);
+                else if (relX > 0.65) setPlayerLane(2);
+                else setPlayerLane(1);
+              }}
+              onTouchStart={(e) => {
+                if (!isPlaying) return;
+                const rect = e.currentTarget.getBoundingClientRect();
+                const touch = e.touches[0];
+                if (!touch) return;
+                const relX = (touch.clientX - rect.left) / rect.width;
+                if (relX < 0.35) setPlayerLane(0);
+                else if (relX > 0.65) setPlayerLane(2);
+                else setPlayerLane(1);
+              }}
+              className="relative flex-1 h-full bg-[#11161d] overflow-hidden cursor-pointer touch-none"
+            >
               {/* Asphalt Grain Texture */}
               <div
                 className="absolute inset-0 opacity-15"
@@ -686,7 +706,7 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
                     bottom: '8%',
                     transform: `translate(-50%, 0) rotate(${steeringAngle}deg)`,
                   }}
-                  className={`absolute z-25 will-change-transform ${
+                  className={`absolute z-25 will-change-transform pointer-events-none ${
                     crashed ? 'opacity-30 animate-ping' : ''
                   }`}
                 >
@@ -720,84 +740,94 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
             </div>
           </div>
 
-          {/* Idle screen with authentic arcade graphics */}
+          {/* Idle screen with authentic arcade graphics (Optimized for all devices) */}
           {!isPlaying && !gameOver && (
-            <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <div className="w-12 h-12 rounded-full bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center mb-2.5 text-emerald-400 shadow-lg">
-                <Gauge className="w-6 h-6" />
-              </div>
-              <h4 className="font-display text-xl sm:text-3xl text-white uppercase tracking-wider font-bold">
-                Авторалли «Магистраль» (1977)
-              </h4>
-              <p className="text-xs sm:text-sm text-stone-300 max-w-md mt-1.5 leading-relaxed">
-                Культовый ленинградский автосимулятор с реальным рулём и педалями. 
-                Обгоняйте такси «Волга», грузовики ЗИЛ и автобусы ЛиАЗ. 
-                Удерживайте педаль газа для разгона до 145 км/ч и удвоения очков!
-              </p>
+            <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-md w-full">
+                <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center mb-1.5 sm:mb-2 text-emerald-400 shadow-lg shrink-0">
+                  <Gauge className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <h4 className="font-display text-lg xs:text-xl sm:text-3xl text-white uppercase tracking-wider font-bold">
+                  Авторалли «Магистраль» (1977)
+                </h4>
+                <p className="text-[11px] xs:text-xs sm:text-sm text-stone-300 max-w-md mt-1 sm:mt-1.5 leading-relaxed">
+                  Культовый ленинградский автосимулятор с реальным рулём и педалями. 
+                  Обгоняйте такси «Волга», грузовики ЗИЛ и автобусы ЛиАЗ. 
+                  Удерживайте педаль газа для разгона до 145 км/ч и удвоения очков!
+                </p>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-sm my-3 text-[11px] font-soviet-mono text-stone-300">
-                <div className="p-2 rounded bg-stone-900 border border-stone-800 text-center">
-                  <div className="text-amber-400 font-bold">РУЛЬ ◄ ►</div>
-                  <div className="text-[9px] text-stone-400">Стрелки / A-D</div>
-                </div>
-                <div className="p-2 rounded bg-stone-900 border border-stone-800 text-center">
-                  <div className="text-amber-400 font-bold">ГАЗ ▲</div>
-                  <div className="text-[9px] text-stone-400">W / Ускорение</div>
-                </div>
-                <div className="col-span-2 sm:col-span-1 p-2 rounded bg-stone-900 border border-stone-800 text-center">
-                  <div className="text-amber-400 font-bold">ТОРМОЗ ▼</div>
-                  <div className="text-[9px] text-stone-400">S / Замедление</div>
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 max-w-sm my-2 sm:my-3 text-[10px] sm:text-[11px] font-soviet-mono text-stone-300 w-full">
+                  <div className="p-1.5 sm:p-2 rounded-xl bg-stone-900 border border-stone-800 text-center">
+                    <div className="text-amber-400 font-bold">РУЛЬ ◄ ►</div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Кнопки / Тап</div>
+                  </div>
+                  <div className="p-1.5 sm:p-2 rounded-xl bg-stone-900 border border-stone-800 text-center">
+                    <div className="text-amber-400 font-bold">ГАЗ ▲</div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Педаль газа</div>
+                  </div>
+                  <div className="p-1.5 sm:p-2 rounded-xl bg-stone-900 border border-stone-800 text-center">
+                    <div className="text-amber-400 font-bold">ТОРМОЗ ▼</div>
+                    <div className="text-[8px] sm:text-[9px] text-stone-400 mt-0.5">Педаль тормоза</div>
+                  </div>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={startGame}
-                className="mt-2 px-7 py-3.5 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-xl border border-red-500/50 shrink-0 flex items-center gap-2"
-              >
-                <span>🪙 Опустить 15 коп. и начать заезд</span>
-              </button>
+              <div className="flex flex-col items-center gap-1.5 mt-1 sm:mt-2 shrink-0 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={startGame}
+                  className="w-full sm:w-auto px-6 xs:px-8 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-xl border border-red-500/50 flex items-center justify-center gap-2"
+                >
+                  <span className="text-base sm:text-lg">🪙</span>
+                  <span>Опустить 15 коп. и начать заезд</span>
+                </button>
+                <div className="text-[9px] sm:text-[10px] font-soviet-mono text-stone-400">
+                  МОНЕТОПРИЁМНИК 15 КОП. · БЕЗ СДАЧИ
+                </div>
+              </div>
             </div>
           )}
 
           {/* Game Over Screen */}
           {gameOver && (
-            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <Award className="w-10 h-10 text-amber-400 mb-1.5 shrink-0" />
-              <h4 className="font-display text-2xl sm:text-3xl text-white uppercase font-bold">
-                Заезд окончен!
-              </h4>
-              <p className="font-soviet-mono text-2xl text-emerald-400 mt-1">
-                {score} очков
-              </p>
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-sm w-full">
+                <Award className="w-10 h-10 text-amber-400 mb-1 sm:mb-1.5 shrink-0 animate-bounce" />
+                <h4 className="font-display text-xl sm:text-3xl text-white uppercase font-bold">
+                  Заезд окончен!
+                </h4>
+                <p className="font-soviet-mono text-xl sm:text-2xl text-emerald-400 mt-0.5 sm:mt-1">
+                  {score} очков
+                </p>
 
-              <div className="flex items-center gap-4 my-2 text-xs font-soviet-mono text-stone-300 bg-stone-900/80 px-4 py-2 rounded-xl border border-stone-800">
-                <div>Дистанция: <span className="text-amber-400 font-bold">{distanceKm} км</span></div>
-                <div className="h-4 w-px bg-stone-700"></div>
-                <div>Аварий: <span className="text-red-400 font-bold">{crashCount}</span></div>
-                <div className="h-4 w-px bg-stone-700"></div>
-                <div>Макс. скорость: <span className="text-cyan-400 font-bold">{isGasPressed ? 145 : 120} км/ч</span></div>
+                <div className="flex items-center gap-3 sm:gap-4 my-2 text-xs font-soviet-mono text-stone-300 bg-stone-900/80 px-4 py-1.5 sm:py-2 rounded-xl border border-stone-800">
+                  <div>Дистанция: <span className="text-amber-400 font-bold">{distanceKm} км</span></div>
+                  <div className="h-4 w-px bg-stone-700"></div>
+                  <div>Аварий: <span className="text-red-400 font-bold">{crashCount}</span></div>
+                  <div className="h-4 w-px bg-stone-700"></div>
+                  <div>Макс: <span className="text-cyan-400 font-bold">{isGasPressed ? 145 : 120} км/ч</span></div>
+                </div>
+
+                <p className="text-[11px] sm:text-xs text-stone-300 mt-1 max-w-xs">
+                  {score >= 350
+                    ? 'Отличный результат! Вы заслужили звание Мастера Спорта СССР по авторалли!'
+                    : 'Заезд завершён. Тренируйте реакцию для манёвров на высокой скорости!'}
+                </p>
               </div>
 
-              <p className="text-xs text-stone-300 mt-1 max-w-xs">
-                {score >= 350
-                  ? 'Отличный результат! Вы заслужили звание Мастера Спорта СССР по авторалли!'
-                  : 'Заезд завершён. Тренируйте реакцию для манёвров на высокой скорости!'}
-              </p>
-
-              <div className="flex flex-wrap items-center justify-center gap-3 mt-4 shrink-0">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-3 sm:mt-4 shrink-0 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={startGame}
-                  className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation shadow-md"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Повторить заезд (15 коп.)
+                  <span>Повторить заезд (15 коп.)</span>
                 </button>
                 <button
                   type="button"
                   onClick={stopGame}
-                  className="px-4 py-2.5 rounded-lg bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
+                  className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
                 >
                   Выйти в меню
                 </button>
@@ -808,67 +838,10 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
       </div>
 
       {/* Tactile Soviet Arcade Cockpit & Steering Dashboard */}
-      <div className="bg-stone-950 p-3.5 sm:p-5 rounded-2xl border border-stone-800/90 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
-          {/* Mechanical Speedometer & Odometer Gauges */}
-          <div className="md:col-span-4 flex items-center justify-around sm:justify-start gap-4 p-2.5 rounded-xl bg-stone-900/80 border border-stone-800">
-            {/* Speedometer Gauge */}
-            <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-stone-950 border-2 border-stone-700 flex flex-col items-center justify-center shadow-inner">
-              <div
-                style={{ transform: `rotate(${-120 + (speed / 180) * 240}deg)` }}
-                className="absolute top-1/2 left-1/2 w-0.5 h-7 sm:h-8 bg-red-500 origin-top transform -translate-x-1/2 transition-transform duration-100"
-              ></div>
-              <div className="w-3 h-3 rounded-full bg-stone-300 border border-black z-10 shadow"></div>
-              <span className="font-soviet-mono text-xs font-bold text-amber-400 mt-2 z-10">
-                {speed}
-              </span>
-              <span className="text-[7px] text-stone-500 font-soviet-mono uppercase">КМ/Ч</span>
-            </div>
-
-            {/* Odometer Mechanical Reels */}
-            <div className="space-y-1">
-              <div className="text-[9px] uppercase tracking-wider text-stone-400 font-soviet-mono">ПРОБЕГ (ОДОМЕТР)</div>
-              <div className="flex items-center gap-0.5 bg-black px-2 py-1 rounded border border-stone-800 font-soviet-mono text-xs font-bold text-emerald-400">
-                <span className="text-stone-600">00</span>
-                <span>{distanceKm < 10 ? `0${distanceKm}` : distanceKm}</span>
-                <span className="text-[9px] text-stone-500 ml-1">КМ</span>
-              </div>
-              <div className="text-[9px] text-stone-400 flex items-center gap-1">
-                <span>ПОЛОСА:</span>
-                <span className="text-amber-400 font-bold font-soviet-mono">
-                  {playerLane === 0 ? 'ЛЕВАЯ' : playerLane === 1 ? 'ЦЕНТР' : 'ПРАВАЯ'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Soviet Steering Wheel with Authentic Chrome Factory Hub */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center">
-            <div className="relative flex items-center justify-center">
-              {/* Outer Wheel Rim (Rotates smoothly with steering input!) */}
-              <div
-                style={{ transform: `rotate(${playerLane === 0 ? -28 : playerLane === 2 ? 28 : 0}deg)` }}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-stone-800 bg-stone-900 shadow-2xl flex items-center justify-center transition-transform duration-150 select-none"
-              >
-                {/* 3 Metal Spokes */}
-                <div className="absolute w-full h-1.5 bg-stone-600"></div>
-                <div className="absolute w-1.5 h-full bg-stone-600"></div>
-
-                {/* Central Hub with Soviet Plant Logo (No Honking, Pure Authentic Wheel) */}
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-stone-700 via-stone-800 to-stone-950 border-2 border-stone-500 z-10 flex items-center justify-center shadow-lg pointer-events-none select-none">
-                  <span className="text-[7px] font-soviet-mono font-bold text-amber-400 tracking-wider">
-                    РАДАР
-                  </span>
-                </div>
-              </div>
-            </div>
-            <span className="text-[9px] font-soviet-mono text-stone-400 mt-1 uppercase tracking-wider">
-              РУЛЕВОЕ КОЛЕСО «РАДАР»
-            </span>
-          </div>
-
-          {/* Tactile Driver Controls: Steering Buttons & Identical Color Pedals */}
-          <div className="md:col-span-4 space-y-2">
+      <div className="bg-stone-950 p-3 sm:p-5 rounded-2xl border border-stone-800/90 shadow-2xl">
+        <div className="flex flex-col md:grid md:grid-cols-12 gap-3.5 items-center">
+          {/* Driver Controls on mobile placed FIRST so user immediately has steering and pedals right under screen */}
+          <div className="order-1 md:order-3 md:col-span-4 w-full space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -920,6 +893,63 @@ export const MagistralSimulator: React.FC<MagistralSimulatorProps> = ({
                 <span>Газ (x2 очки)</span>
               </button>
             </div>
+          </div>
+
+          {/* Mechanical Speedometer & Odometer Gauges */}
+          <div className="order-2 md:order-1 md:col-span-4 w-full flex items-center justify-around sm:justify-start gap-4 p-2.5 rounded-xl bg-stone-900/80 border border-stone-800">
+            {/* Speedometer Gauge */}
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-stone-950 border-2 border-stone-700 flex flex-col items-center justify-center shadow-inner shrink-0">
+              <div
+                style={{ transform: `rotate(${-120 + (speed / 180) * 240}deg)` }}
+                className="absolute top-1/2 left-1/2 w-0.5 h-6 sm:h-8 bg-red-500 origin-top transform -translate-x-1/2 transition-transform duration-100"
+              ></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-stone-300 border border-black z-10 shadow"></div>
+              <span className="font-soviet-mono text-[11px] sm:text-xs font-bold text-amber-400 mt-1 sm:mt-2 z-10">
+                {speed}
+              </span>
+              <span className="text-[7px] text-stone-500 font-soviet-mono uppercase">КМ/Ч</span>
+            </div>
+
+            {/* Odometer Mechanical Reels */}
+            <div className="space-y-1">
+              <div className="text-[9px] uppercase tracking-wider text-stone-400 font-soviet-mono">ПРОБЕГ (ОДОМЕТР)</div>
+              <div className="flex items-center gap-0.5 bg-black px-2 py-1 rounded border border-stone-800 font-soviet-mono text-xs font-bold text-emerald-400">
+                <span className="text-stone-600">00</span>
+                <span>{distanceKm < 10 ? `0${distanceKm}` : distanceKm}</span>
+                <span className="text-[9px] text-stone-500 ml-1">КМ</span>
+              </div>
+              <div className="text-[9px] text-stone-400 flex items-center gap-1">
+                <span>ПОЛОСА:</span>
+                <span className="text-amber-400 font-bold font-soviet-mono">
+                  {playerLane === 0 ? 'ЛЕВАЯ' : playerLane === 1 ? 'ЦЕНТР' : 'ПРАВАЯ'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Soviet Steering Wheel with Authentic Chrome Factory Hub */}
+          <div className="order-3 md:order-2 md:col-span-4 flex flex-col items-center justify-center">
+            <div className="relative flex items-center justify-center">
+              {/* Outer Wheel Rim */}
+              <div
+                style={{ transform: `rotate(${playerLane === 0 ? -28 : playerLane === 2 ? 28 : 0}deg)` }}
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-stone-800 bg-stone-900 shadow-2xl flex items-center justify-center transition-transform duration-150 select-none"
+              >
+                {/* 3 Metal Spokes */}
+                <div className="absolute w-full h-1.5 bg-stone-600"></div>
+                <div className="absolute w-1.5 h-full bg-stone-600"></div>
+
+                {/* Central Hub with Soviet Plant Logo */}
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-stone-700 via-stone-800 to-stone-950 border-2 border-stone-500 z-10 flex items-center justify-center shadow-lg pointer-events-none select-none">
+                  <span className="text-[7px] font-soviet-mono font-bold text-amber-400 tracking-wider">
+                    РАДАР
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span className="text-[9px] font-soviet-mono text-stone-400 mt-1 uppercase tracking-wider">
+              РУЛЕВОЕ КОЛЕСО «РАДАР»
+            </span>
           </div>
         </div>
       </div>

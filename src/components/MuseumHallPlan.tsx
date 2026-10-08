@@ -90,16 +90,15 @@ export const MuseumHallPlan: React.FC<MuseumHallPlanProps> = ({ onSelectExhibit 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-widest">
-              <Compass className="w-3.5 h-3.5" />
-              <span>Интерактивная карта экспозиции</span>
+            <div className="text-xs font-soviet-mono text-amber-400 uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-600"></span>
+              <span>АРХИТЕКТУРНЫЙ ПЛАН · ЗДАНИЕ XVIII ВЕКА</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase">
-              Схема залов музея на Конюшенной
+            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase tracking-tight">
+              Схема залов на Конюшенной
             </h2>
-            <p className="text-xs sm:text-sm text-stone-400 mt-1.5 max-w-2xl leading-relaxed">
-              Нажмите на зону экспозиции или выберите этаж, чтобы узнать точное расположение 
-              автоматов и посмотреть их паспорта.
+            <p className="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
+              Интерактивный чертёж экспозиции. Выберите зал или этаж, чтобы посмотреть расстановку действующих аппаратов.
             </p>
           </div>
 
@@ -117,7 +116,7 @@ export const MuseumHallPlan: React.FC<MuseumHallPlanProps> = ({ onSelectExhibit 
                   : 'text-stone-400 hover:text-white'
               }`}
             >
-              1-й ЭТАЖ (ОСНОВНОЙ)
+              1-Й ЭТАЖ (ОСНОВНОЙ)
             </button>
             <button
               type="button"
@@ -131,7 +130,7 @@ export const MuseumHallPlan: React.FC<MuseumHallPlanProps> = ({ onSelectExhibit 
                   : 'text-stone-400 hover:text-white'
               }`}
             >
-              2-й ЭТАЖ (ГАЛЕРЕЯ)
+              2-Й ЭТАЖ (ГАЛЕРЕЯ)
             </button>
           </div>
         </div>

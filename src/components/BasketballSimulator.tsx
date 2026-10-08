@@ -233,7 +233,7 @@ export const BasketballSimulator: React.FC<BasketballSimulatorProps> = ({
       </div>
 
       {/* Main Dome Arena View */}
-      <div className="relative my-4 sm:my-6 h-[340px] sm:h-[400px] md:h-[460px] w-full bg-[#1c1815] rounded-xl overflow-hidden border-2 sm:border-4 border-[#332a24] shadow-inner select-none flex items-center justify-center">
+      <div className="relative my-3 sm:my-6 h-[360px] xs:h-[400px] sm:h-[440px] md:h-[480px] w-full bg-[#1c1815] rounded-xl overflow-hidden border-2 sm:border-4 border-[#332a24] shadow-inner select-none flex items-center justify-center">
         {/* Parquet Court */}
         <div className="relative w-full max-w-2xl h-full bg-[#3a281c] border-x-4 border-[#523b2c] p-4 flex flex-col justify-between overflow-hidden">
           {/* Court lines */}
@@ -317,33 +317,36 @@ export const BasketballSimulator: React.FC<BasketballSimulatorProps> = ({
             <div className="w-16 h-2 bg-stone-300 rounded border border-stone-500 shadow"></div>
           </div>
 
-          {/* Idle screen */}
+          {/* Idle screen (Optimized for all screen sizes) */}
           {!isPlaying && !gameOver && (
-            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <div className="w-12 h-12 rounded-full bg-orange-950 border-2 border-orange-500/80 flex items-center justify-center mb-2.5 text-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.4)] shrink-0">
-                <Trophy className="w-6 h-6" />
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-md w-full">
+                <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-orange-950 border-2 border-orange-500/80 flex items-center justify-center mb-1.5 sm:mb-2 text-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.4)] shrink-0">
+                  <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
+                </div>
+                <div className="text-[9px] xs:text-[10px] font-soviet-mono text-orange-400 uppercase tracking-widest">
+                  ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ «РАДУГА» · 1982
+                </div>
+                <h4 className="font-display text-lg xs:text-xl sm:text-2xl text-white uppercase tracking-wider font-bold mt-0.5">
+                  Автомат «Баскетбол» (1982)
+                </h4>
+                <p className="text-[11px] xs:text-xs sm:text-sm text-stone-300 max-w-md mt-1 sm:mt-1.5 leading-relaxed">
+                  Честный поединок с равными шансами! Когда мяч падает в вашу лунку (№1–8), 
+                  быстро жмите на неё или клавишу с её номером. Если мяч у соперника (№9–15), он бросает 
+                  в вашу корзину. Кто наберёт больше очков за 60 секунд — тот и победил!
+                </p>
               </div>
-              <div className="text-[10px] font-soviet-mono text-orange-400 uppercase tracking-widest">
-                ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ «РАДУГА» · 1982
-              </div>
-              <h4 className="font-display text-lg sm:text-2xl text-white uppercase tracking-wider font-bold mt-0.5">
-                Автомат «Баскетбол» (1982)
-              </h4>
-              <p className="text-xs sm:text-sm text-stone-300 max-w-md mt-1.5 leading-relaxed">
-                Честный поединок с равными шансами! Когда мяч падает в вашу лунку (№1–8), 
-                быстро жмите на неё или клавишу с её номером. Если мяч у соперника (№9–15), он бросает 
-                в вашу корзину. Кто наберёт больше очков за 60 секунд — тот и победил!
-              </p>
-              <div className="flex flex-col items-center gap-1.5 mt-3.5 shrink-0">
+
+              <div className="flex flex-col items-center gap-1.5 mt-1 sm:mt-3 shrink-0 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={startGame}
-                  className="px-7 sm:px-9 py-3.5 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-[0_0_20px_rgba(185,28,28,0.6)] border border-red-500/60 flex items-center gap-2"
+                  className="w-full sm:w-auto px-6 xs:px-8 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-[0_0_20px_rgba(185,28,28,0.6)] border border-red-500/60 flex items-center justify-center gap-2"
                 >
                   <span className="text-base sm:text-lg">🪙</span>
                   <span>Опустить 15 коп. и начать матч</span>
                 </button>
-                <div className="text-[10px] font-soviet-mono text-stone-400">
+                <div className="text-[9px] sm:text-[10px] font-soviet-mono text-stone-400">
                   МОНЕТОПРИЁМНИК 15 КОП. · БЕЗ СДАЧИ
                 </div>
               </div>
@@ -352,40 +355,43 @@ export const BasketballSimulator: React.FC<BasketballSimulatorProps> = ({
 
           {/* Game Over Screen: Player win, Rival win, or Draw */}
           {gameOver && (
-            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <Award className="w-9 h-9 sm:w-10 sm:h-10 text-amber-400 mb-1.5 shrink-0" />
-              <h4 className="font-display text-xl sm:text-2xl text-white uppercase">
-                {playerScore > rivalScore
-                  ? 'ПОБЕДА ИГРОКА!'
-                  : rivalScore > playerScore
-                  ? 'ПОБЕДА СОПЕРНИКА!'
-                  : 'НИЧЬЯ! РАВНЫЙ СЧЁТ!'}
-              </h4>
-              <p className="font-soviet-mono text-xl sm:text-2xl font-bold mt-1">
-                <span className="text-amber-400">Вы: {playerScore}</span>
-                {' '}:{' '}
-                <span className="text-purple-400">Соперник: {rivalScore}</span>
-              </p>
-              <p className="text-xs text-stone-300 mt-1 max-w-xs">
-                {playerScore > rivalScore
-                  ? 'Поздравляем! Ваша реакция и меткость оказались лучше!'
-                  : rivalScore > playerScore
-                  ? 'В этот раз соперник вырвал победу! Возьмите реванш!'
-                  : 'Упорная борьба очко в очко! Достойный поединок!'}
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-4 shrink-0">
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-between sm:justify-center p-3.5 xs:p-5 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="flex flex-col items-center max-w-sm w-full">
+                <Award className="w-10 h-10 text-amber-400 mb-1 sm:mb-1.5 shrink-0" />
+                <h4 className="font-display text-xl sm:text-2xl text-white uppercase">
+                  {playerScore > rivalScore
+                    ? 'ПОБЕДА ИГРОКА!'
+                    : rivalScore > playerScore
+                    ? 'ПОБЕДА СОПЕРНИКА!'
+                    : 'НИЧЬЯ! РАВНЫЙ СЧЁТ!'}
+                </h4>
+                <p className="font-soviet-mono text-xl sm:text-2xl font-bold mt-0.5 sm:mt-1">
+                  <span className="text-amber-400">Вы: {playerScore}</span>
+                  {' '}:{' '}
+                  <span className="text-purple-400">Соперник: {rivalScore}</span>
+                </p>
+                <p className="text-[11px] sm:text-xs text-stone-300 mt-1 max-w-xs">
+                  {playerScore > rivalScore
+                    ? 'Поздравляем! Ваша реакция и меткость оказались лучше!'
+                    : rivalScore > playerScore
+                    ? 'В этот раз соперник вырвал победу! Возьмите реванш!'
+                    : 'Упорная борьба очко в очко! Достойный поединок!'}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mt-3 sm:mt-4 shrink-0 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={startGame}
-                  className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer touch-manipulation shadow-md"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Реванш (15 коп.)
+                  <span>Реванш (15 коп.)</span>
                 </button>
                 <button
                   type="button"
                   onClick={stopGame}
-                  className="px-4 py-2.5 rounded-lg bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
+                  className="flex-1 sm:flex-initial px-4 py-2.5 rounded-lg bg-stone-800 hover:bg-stone-700 active:bg-stone-900 text-stone-300 text-xs font-semibold uppercase tracking-wider transition-colors border border-stone-700 cursor-pointer touch-manipulation"
                 >
                   Выйти в меню
                 </button>

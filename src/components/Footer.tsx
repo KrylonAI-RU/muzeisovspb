@@ -4,7 +4,7 @@ import { MapPin, Phone, Mail, Globe, UserCheck, GraduationCap } from 'lucide-rea
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#0e1014] border-t border-stone-800 text-stone-400 text-xs py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-stone-800">
           {/* Col 1: Museum About */}

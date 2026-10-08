@@ -5,58 +5,61 @@ export const MapSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'panorama' | 'map' | 'routes'>('panorama');
 
   return (
-    <section id="location-map" className="py-16 border-t border-stone-800 bg-[#121418] text-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="location-map" className="py-14 sm:py-16 border-t border-stone-800 bg-[#121418] text-stone-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-400 uppercase tracking-widest">
-              <MapPin className="w-3.5 h-3.5" />
-              <span>Санкт-Петербург · Конюшенная площадь, 2В</span>
+            <div className="text-xs font-soviet-mono text-amber-400 uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-600"></span>
+              <span>КАРТОГРАФИЯ · ЛЕНИНГРАД / САНКТ-ПЕТЕРБУРГ</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase">
-              3D-Панорама и Яндекс.Карта музея
+            <h2 className="text-2xl sm:text-4xl font-bold font-display text-white mt-1 uppercase tracking-tight">
+              3D-Панорама и расположение
             </h2>
-            <p className="text-sm text-stone-400 mt-2 max-w-2xl">
-              Музей расположен в историческом центре Петербурга, в пяти минутах ходьбы от Спаса на Крови. 
-              Осмотритесь вокруг в 360-градусной уличной панораме или изучите маршрут от станций метро.
+            <p className="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
+              Исторический центр, 5 минут пешком от храма Спас на Крови. 
+              Круговой обзор Конюшенной площади и схема пеших маршрутов от станций метро.
             </p>
           </div>
 
           {/* Tab buttons */}
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-stone-900 border border-stone-800 self-start md:self-auto">
             <button
+              type="button"
               onClick={() => setActiveTab('panorama')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold font-soviet-mono uppercase transition-colors cursor-pointer ${
                 activeTab === 'panorama'
-                  ? 'bg-amber-600 text-stone-950 font-bold'
+                  ? 'bg-amber-600 text-stone-950 font-bold shadow-sm'
                   : 'text-stone-400 hover:text-white'
               }`}
             >
               <Eye className="w-3.5 h-3.5" />
-              Панорама 360°
+              <span>Панорама 360°</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('map')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold font-soviet-mono uppercase transition-colors cursor-pointer ${
                 activeTab === 'map'
-                  ? 'bg-amber-600 text-stone-950 font-bold'
+                  ? 'bg-amber-600 text-stone-950 font-bold shadow-sm'
                   : 'text-stone-400 hover:text-white'
               }`}
             >
               <Compass className="w-3.5 h-3.5" />
-              Схема на карте
+              <span>Карта</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('routes')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold font-soviet-mono uppercase transition-colors cursor-pointer ${
                 activeTab === 'routes'
-                  ? 'bg-amber-600 text-stone-950 font-bold'
+                  ? 'bg-amber-600 text-stone-950 font-bold shadow-sm'
                   : 'text-stone-400 hover:text-white'
               }`}
             >
               <Navigation className="w-3.5 h-3.5" />
-              Как добраться
+              <span>Маршруты</span>
             </button>
           </div>
         </div>
