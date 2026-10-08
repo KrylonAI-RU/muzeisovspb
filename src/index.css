@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Oswald', sans-serif;
+    --font-sans: 'Rubik', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-display {
+  font-family: 'Oswald', sans-serif;
+}
+
+.font-soviet-mono {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* Custom styling for retro feel without AI slop */
+.bg-soviet-dark {
+  background-color: #121417;
+}
+
+.bg-soviet-surface {
+  background-color: #1a1e24;
+}
+
+.border-soviet {
+  border-color: rgba(255, 255, 255, 0.08);
+}

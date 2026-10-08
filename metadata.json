@@ -1,0 +1,6 @@
+{
+  "name": "Музей советских игровых автоматов СПб",
+  "description": "Интерактивный сайт Музея советских игровых автоматов в Санкт-Петербурге на Конюшенной площади.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
