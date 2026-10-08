@@ -319,11 +319,14 @@ export const BasketballSimulator: React.FC<BasketballSimulatorProps> = ({
 
           {/* Idle screen */}
           {!isPlaying && !gameOver && (
-            <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center mb-2 text-amber-400 shrink-0">
-                <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-40 overflow-y-auto">
+              <div className="w-12 h-12 rounded-full bg-orange-950 border-2 border-orange-500/80 flex items-center justify-center mb-2.5 text-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.4)] shrink-0">
+                <Trophy className="w-6 h-6" />
               </div>
-              <h4 className="font-display text-lg sm:text-xl text-white uppercase tracking-wider font-bold">
+              <div className="text-[10px] font-soviet-mono text-orange-400 uppercase tracking-widest">
+                ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ «РАДУГА» · 1982
+              </div>
+              <h4 className="font-display text-lg sm:text-2xl text-white uppercase tracking-wider font-bold mt-0.5">
                 Автомат «Баскетбол» (1982)
               </h4>
               <p className="text-xs sm:text-sm text-stone-300 max-w-md mt-1.5 leading-relaxed">
@@ -331,13 +334,19 @@ export const BasketballSimulator: React.FC<BasketballSimulatorProps> = ({
                 быстро жмите на неё или клавишу с её номером. Если мяч у соперника (№9–15), он бросает 
                 в вашу корзину. Кто наберёт больше очков за 60 секунд — тот и победил!
               </p>
-              <button
-                type="button"
-                onClick={startGame}
-                className="mt-4 sm:mt-5 px-6 py-3 sm:py-3.5 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shrink-0 shadow-lg border border-red-500/40"
-              >
-                Опустить 15 коп. и начать матч
-              </button>
+              <div className="flex flex-col items-center gap-1.5 mt-3.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={startGame}
+                  className="px-7 sm:px-9 py-3.5 rounded-xl bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-display text-xs sm:text-sm uppercase tracking-widest transition-all font-bold cursor-pointer touch-manipulation active:scale-95 shadow-[0_0_20px_rgba(185,28,28,0.6)] border border-red-500/60 flex items-center gap-2"
+                >
+                  <span className="text-base sm:text-lg">🪙</span>
+                  <span>Опустить 15 коп. и начать матч</span>
+                </button>
+                <div className="text-[10px] font-soviet-mono text-stone-400">
+                  МОНЕТОПРИЁМНИК 15 КОП. · БЕЗ СДАЧИ
+                </div>
+              </div>
             </div>
           )}
 

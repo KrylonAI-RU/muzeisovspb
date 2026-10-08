@@ -218,16 +218,19 @@ export const GazirovkaSimulator: React.FC<GazirovkaSimulatorProps> = ({
             <button
               onClick={handlePourSoda}
               disabled={isPouring || isRinsing}
-              className={`w-full py-3.5 rounded-xl font-display text-sm uppercase tracking-widest transition-colors font-semibold ${
+              className={`w-full py-3.5 rounded-xl font-display text-sm uppercase tracking-widest transition-all font-semibold shadow-lg border border-red-500/50 flex items-center justify-center gap-2 cursor-pointer touch-manipulation active:scale-98 ${
                 isPouring
-                  ? 'bg-stone-800 text-stone-500 cursor-not-allowed'
-                  : 'bg-red-700 hover:bg-red-600 text-white'
+                  ? 'bg-stone-800 text-stone-500 border-stone-700 cursor-not-allowed'
+                  : 'bg-red-700 hover:bg-red-600 active:bg-red-800 text-white'
               }`}
             >
               {isPouring ? (
                 'Идёт налив...'
               ) : (
-                <>Опустить монету и налить «{currentSyrupInfo.name}»</>
+                <>
+                  <span className="text-base">🪙</span>
+                  <span>Опустить монету и налить «{currentSyrupInfo.name}»</span>
+                </>
               )}
             </button>
 
